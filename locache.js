@@ -139,7 +139,7 @@
         var len = _len();
         var prefix = this.cache_prefix;
 
-        for (var i=0; i < len -1 ; i++) {
+        for (var i=0; i < len; i++) {
             var key = _key(i);
             if (key.indexOf(prefix) === 0) _del(key);
         }
@@ -154,11 +154,17 @@
         var len = _len();
         var prefix = this.cache_prefix;
 
-        for (var i=0; i < len -1 ; i++) {
+        for (var i=0; i < len; i++) {
             if (_key(i).indexOf(prefix) === 0) c++;
         }
 
         return c;
+
+    };
+
+    locache.cleanup = function(){
+
+        if (!this.supportsLocalStorage) return;
 
     };
 

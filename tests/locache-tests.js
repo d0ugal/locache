@@ -70,6 +70,7 @@ $(function(){
 
         equal(locache.length(), 0);
         locache.set("key", "value");
+        console.log(localStorage);
         equal(locache.length(), 1);
         locache.flush();
         equal(locache.length(), 0);
