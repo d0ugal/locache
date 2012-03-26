@@ -73,7 +73,6 @@
         var expireValue = parseInt(this.storage.get(expireKey), 10);
 
         if (expireValue && expireValue < _currentTime()){
-            this.remove(this.key(key));
             return true;
         }
 
@@ -103,6 +102,7 @@
         if (!this.supportsLocalStorage) return null;
 
         if (this.hasExpired(key)){
+            this.remove(this.key(key));
             return null;
         }
 
