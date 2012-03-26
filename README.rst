@@ -15,6 +15,7 @@ Values can be stored one at a time as shown below, these values will never
 expire and will only be removed when you (or the browser) removes them.
 
 ::
+
     locache.set("my_key", "my_value");
 
     locache.get("my_key");
@@ -25,6 +26,7 @@ expire and will only be removed when you (or the browser) removes them.
 When you store an object, that's what you'll get back. For example, a number;
 
 ::
+
     locache.set("counter", 1);
     typeof locache.get("counter");
     // number
@@ -35,6 +37,7 @@ Storing complex objects isn't a problem too. Just make sure they are JSON
 serializable.
 
 ::
+
     locache.set('user', {
         'name': "Dougal Matthews",
         'alias': d0ugal
@@ -51,6 +54,7 @@ serializable.
 You can also perform batch operations.
 
 ::
+
     locache.setMany({
         'name': 'locache',
         'language': 'JavaScript'
@@ -78,6 +82,7 @@ Incrementing and decremening? Sure.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
+
     locache.incr("counter");
     // 1
     locache.incr("counter");
@@ -96,6 +101,7 @@ Flushing the cache
 Use the following to clear only the locache values stored in localStorage.
 
 ::
+
     locache.flush();
 
 
