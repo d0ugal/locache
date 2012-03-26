@@ -34,7 +34,7 @@ $(function(){
                 "key 2": "value 2"
             });
             deepEqual(locache.getMany(['key 1', 'key 2']), [null, null]);
-            locache.remoteMany(['key 1', 'key 2']);
+            locache.removeMany(['key 1', 'key 2']);
             locache.flush();
             locache.cleanup();
 
@@ -93,7 +93,7 @@ $(function(){
 
         });
 
-        test("with no localStorage test many operations - set, get, remote", function(){
+        test("with no localStorage test many operations - set, get, remove", function(){
 
             locache.setMany({
                 'key1': 'val1',
@@ -103,7 +103,7 @@ $(function(){
 
             var vals = locache.getMany(['key1','key2','key3']);
             deepEqual(vals, [null, null, null]);
-            locache.remoteMany(['key1','key2','key3']);
+            locache.removeMany(['key1','key2','key3']);
             var vals2 = locache.getMany(['key1','key2','key3']);
             deepEqual(vals2, [null, null, null]);
 
@@ -184,7 +184,7 @@ $(function(){
 
     });
 
-    test("test many operations - set, get, remote", function(){
+    test("test many operations - set, get, remove", function(){
 
         locache.setMany({
             'key1': 'val1',
@@ -197,7 +197,7 @@ $(function(){
 
         strictEqual(locache.get('key1'), 'val1');
 
-        locache.remoteMany(['key1','key2','key3']);
+        locache.removeMany(['key1','key2','key3']);
         var vals2 = locache.getMany(['key1','key2','key3']);
         deepEqual(vals2, [null, null, null]);
 

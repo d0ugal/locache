@@ -186,7 +186,7 @@
 
     };
 
-    locache.remoteMany = function(keys){
+    locache.removeMany = function(keys){
         if (!this.supportsLocalStorage) return;
 
         for (var i=0; i < keys.length; i++){
