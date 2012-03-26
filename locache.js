@@ -2,60 +2,83 @@
 
     var root = this;
 
-    // Based on the Modernizr implementation;
-    // https://github.com/Modernizr/Modernizr/blob/c56fb8b09515f629806ca44742932902ac145302/modernizr.js#L696-731
 
     var locache = {};
     root.locache = locache;
 
     locache.supportsLocalStorage = (function() {
 
+        // Based on the Modernizr implementation;
+        // https://github.com/Modernizr/Modernizr/blob/c56fb8b09515f629806ca44742932902ac145302/modernizr.js#L696-731
+
         try {
-            localStorage.setItem("___locache___", "___locache___");
-            localStorage.removeItem("___locache___");
+            var test_val = "___locache___";
+            localStorage.setItem(test_val, test_val);
+            localStorage.getItem(test_val);
+            localStorage.removeItem(test_val);
             return true;
         } catch(e) {
+            console.log(e.getMessage());
             return false;
         }
 
-    })();
+    });
 
     locache.supportsNativeJSON = !!window.JSON;
 
-    locache.cache_prefix = '___locache___';
-    locache.expire_prefix = '___locacheExpire___';
+    locache.cachePrefix = '___locache___';
+    locache.expirePrefix = '___locacheExpire___';
 
-    var _set = function(key, value){
-        return localStorage.setItem(key, value);
+    locache.storage = {
+
+        set : function(key, value){
+            // Due to a strange bug (seen usually on the iPad) removing the
+            // key before setting it can avoid QUOTA_EXCEEDED_ERR's
+            localStorage.removeItem(key);
+            return localStorage.setItem(key, value);
+        },
+
+        get : function(key, value){
+            return localStorage.getItem(key);
+        },
+
+        remove : function(key){
+            return localStorage.removeItem(key);
+        },
+
+        length : function(key){
+            return localStorage.length;
+        },
+
+        key : function(index){
+            return localStorage.key(index);
+        }
     };
-
-    var _get = function(key, value){
-        return localStorage.getItem(key);
-    };
-
-    var _del = function(key){
-        return localStorage.removeItem(key);
-    };
-
-    var _len = function(key){
-        return localStorage.length;
-    };
-
-    var _key = function(index){
-        return localStorage.key(index);
-    };
-
 
     var _currentTime = function(){
         return new Date().getTime();
     };
 
     locache.key = function(key){
-        return locache.cache_prefix + key;
+        return this.cachePrefix + key;
     };
 
     locache.expirekey = function(key){
-        return locache.expire_prefix + key;
+        return this.expirePrefix + key;
+    };
+
+    locache.hasExpired = function(key){
+
+        var expireKey = this.expirekey(key);
+        var expireValue = parseInt(this.storage.get(expireKey), 10);
+
+        if (expireValue && expireValue < _currentTime()){
+            this.remove(this.key(key));
+            return true;
+        }
+
+        return false;
+
     };
 
     locache.set = function(key, value, seconds){
@@ -67,34 +90,34 @@
 
         if(seconds){
             ms = seconds * 1000;
-            _set(expireKey, _currentTime() + ms);
-        }
-
-        if (typeof value === 'string'){
-            _set(valueKey, value);
-            return;
+            this.storage.set(expireKey, _currentTime() + ms);
         }
 
         value = JSON.stringify(value);
-        _set(valueKey, value);
+        this.storage.set(valueKey, value);
 
     };
 
     locache.get = function(key){
 
-        if (!this.supportsLocalStorage) return;
+        if (!this.supportsLocalStorage) return null;
 
-        var expireKey = this.expirekey(key);
-        var valueKey = this.key(key);
-
-        var expireValue = parseInt(_get(expireKey), 10);
-
-        if (expireValue && expireValue < _currentTime()){
-            this.remove(valueKey);
+        if (this.hasExpired(key)){
             return null;
         }
 
-        return _get(valueKey);
+        var valueKey = this.key(key);
+        var value = this.storage.get(valueKey);
+
+        if (value){
+            try{
+                return JSON.parse(value);
+            } catch(err){
+                return null;
+            }
+        }
+
+        return value;
 
     };
 
@@ -105,43 +128,83 @@
         var expireKey = this.expirekey(key);
         var valueKey = this.key(key);
 
-        _del(expireKey);
-        _del(valueKey);
+        this.storage.remove(expireKey);
+        this.storage.remove(valueKey);
 
     };
 
     locache.incr = function(key){
         if (!this.supportsLocalStorage) return;
 
-        this.set(key, parseInt(this.get(key), 10) + 1);
+        var current = parseInt(this.get(key), 10);
+        if (!current){
+            current = 0;
+        }
+        var new_number = current + 1;
+        this.set(key, new_number);
+        return new_number;
+
     };
 
     locache.decr = function(key){
         if (!this.supportsLocalStorage) return;
+
+        var current = parseInt(this.get(key), 10);
+        if (!current){
+            current = 0;
+        }
+        var new_number = current - 1;
+        this.set(key, new_number);
+        return new_number;
+
     };
 
-    locache.set_multi = function(keys){
+    locache.setMany = function(properties){
         if (!this.supportsLocalStorage) return;
+
+        for (var key in properties) {
+            if (properties.hasOwnProperty(key)) {
+                locache.set(key, properties[key]);
+            }
+        }
+
     };
 
-    locache.get_multi = function(keys){
-        if (!this.supportsLocalStorage) return;
+    locache.getMany = function(keys){
+
+        var results = [];
+
+        for (var i=0; i < keys.length; i++){
+            if (this.supportsLocalStorage){
+                results.push(this.get(keys[i]));
+            } else {
+                results.push(null);
+            }
+        }
+
+        return results;
+
     };
 
-    locache.delete_multi = function(keys){
+    locache.remoteMany = function(keys){
         if (!this.supportsLocalStorage) return;
+
+        for (var i=0; i < keys.length; i++){
+            this.remove(keys[i]);
+        }
+
     };
 
     locache.flush = function(){
 
         if (!this.supportsLocalStorage) return;
 
-        var len = _len();
-        var prefix = this.cache_prefix;
+        var length = this.storage.length();
+        var prefix = this.cachePrefix;
 
-        for (var i=0; i < len; i++) {
-            var key = _key(i);
-            if (key.indexOf(prefix) === 0) _del(key);
+        for (var i=0; i < length; i++) {
+            var key = this.storage.key(i);
+            if (key.indexOf(prefix) === 0) this.storage.remove(key);
         }
 
     };
@@ -151,11 +214,11 @@
         if (!this.supportsLocalStorage) return 0;
 
         var c = 0;
-        var len = _len();
-        var prefix = this.cache_prefix;
+        var length = this.storage.length();
+        var prefix = this.cachePrefix;
 
-        for (var i=0; i < len; i++) {
-            if (_key(i).indexOf(prefix) === 0) c++;
+        for (var i=0; i < length; i++) {
+            if (this.storage.key(i).indexOf(prefix) === 0) c++;
         }
 
         return c;
@@ -165,6 +228,14 @@
     locache.cleanup = function(){
 
         if (!this.supportsLocalStorage) return;
+
+        var length = this.storage.length();
+        var prefix = this.cachePrefix;
+
+        for (var i=0; i < length; i++) {
+            var key = this.storage.key(i);
+            if (key.indexOf(prefix) === 0) this.storage.remove(key);
+        }
 
     };
 
