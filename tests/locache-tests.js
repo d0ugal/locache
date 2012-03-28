@@ -5,23 +5,22 @@ $(function(){
     test("local storage is supported by the testing browser.", function() {
 
         var msg = [
+            "This test is intended to fail to make you aware that",
             "localStorage isn't supported by your browser. While the cache",
             "wont be able to work, its safe to use as it will fail silently.",
-            "It will be like always getting a cache miss. However, no tests",
-            "should fail - but a large number are skipped.",
-            "This test is intended to fail to make you aware."
+            "It will be like always getting a cache miss. Most of the tests",
+            "are skipped, but some will run to verify graceful degrading."
         ].join(" ");
 
         ok(locache.supportsLocalStorage, msg);
 
     });
 
-    // Tests specific to browsers that don't have local storage
+    // Tests specific to browsers that don't have local storage. These simply
+    // test that the functionality degrades well. All cache attempts will be
+    // dropped siliently and fetches should act like a cache miss.
     if(!locache.supportsLocalStorage){
 
-        // The following tests will fail as they test the cache system.
-        // Testing for browsers that don't support localStorage here (probably
-        // IE7 and IE6 only).
         test("silent failing when localStorage isn't supported", function(){
 
             locache.set("my_key", "my_value");
@@ -112,6 +111,10 @@ $(function(){
         return;
 
     }
+
+    /*
+     * Resume normal testing - for browsers that *do* support localStorage.
+     */
 
     test("length and flush", function(){
 

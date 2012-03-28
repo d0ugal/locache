@@ -18,11 +18,10 @@
             localStorage.removeItem(test_val);
             return true;
         } catch(e) {
-            console.log(e.getMessage());
             return false;
         }
 
-    });
+    })();
 
     locache.supportsNativeJSON = !!window.JSON;
 
