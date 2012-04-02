@@ -50,6 +50,9 @@
         },
 
         key : function(index){
+            if (index < 0 || index >= this.length()){
+                return;
+            }
             return localStorage.key(index);
         }
     };
@@ -203,7 +206,7 @@
 
         for (var i=0; i < length; i++) {
             var key = this.storage.key(i);
-            if (key.indexOf(prefix) === 0) this.storage.remove(key);
+            if (key && key.indexOf(prefix) === 0) this.storage.remove(key);
         }
 
     };
