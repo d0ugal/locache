@@ -222,4 +222,76 @@ $(function(){
 
     });
 
+    test("expire calculations", function(){
+
+        var now = new Date().getTime(),
+            past = now / 10,
+            future = now * 10;
+
+        var key =  "mykey",
+            cacheKey = locache.cachePrefix + key,
+            expireKey = locache.expirePrefix + key;
+
+        // Bypass the normal setting mechanisims by manually calling the
+        // storage wrapper around localStorage.
+        locache.storage.set(cacheKey, "value");
+
+        // Now manually set the expire date as in the past.
+        locache.storage.set(expireKey, past);
+        strictEqual(locache.hasExpired(key), true);
+
+        // set the expire to "now", which should have expired given that
+        // some small fractions of a second should have passed by now.
+        locache.storage.set(expireKey, now);
+        strictEqual(locache.hasExpired(key), true);
+
+        // Finally, test the future.
+        locache.storage.set(expireKey, future);
+        strictEqual(locache.hasExpired(key), false);
+
+    });
+
+
+    test("cleaning up expired values", function(){
+
+        localStorage.clear();
+
+        var now = new Date().getTime(),
+            past = now / 10,
+            future = now * 10;
+
+        var key1 =  "mykey1",
+            cacheKey1 = locache.cachePrefix + key1,
+            expireKey1 = locache.expirePrefix + key1,
+            key2 =  "mykey2",
+            cacheKey2 = locache.cachePrefix + key2,
+            expireKey2 = locache.expirePrefix + key2;
+
+        // Bypass the normal setting mechanisims by manually calling the
+        // storage wrapper around localStorage.
+        locache.storage.set(cacheKey1, "value1");
+        locache.storage.set(cacheKey2, "value2");
+
+        // set the first value to expire on a date in the past, and then
+        // second to expire in the future.
+        locache.storage.set(expireKey1, past);
+        locache.storage.set(expireKey2, future);
+
+        // Both values should be stored in localStorage - by passing the
+        // normal get method to avoid the checks for validation
+        strictEqual(locache.storage.get(cacheKey1), "value1");
+        strictEqual(locache.storage.get(cacheKey2), "value2");
+
+        // Perform a cleanup.
+        locache.cleanup();
+
+        // Check the values again, the first should have been removed but the
+        // second should be as originally stored.
+        strictEqual(locache.storage.get(cacheKey1), null);
+        strictEqual(locache.storage.get(cacheKey2), "value2");
+
+
+
+    });
+
 });
