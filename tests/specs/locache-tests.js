@@ -1,6 +1,6 @@
-describe("Browsers without localStorage", function(){
+describe("Tests for browsers without localStorage support", function(){
 
-    it("local storage is supported by the testing browser.", function() {
+    it("should test that localStorage is enabled in this browser, if it is, this will pass and the remaining tests will be skipped.", function() {
 
         var msg = [
             "This test is intended to fail to make you aware that",
@@ -106,7 +106,7 @@ describe("Browsers without localStorage", function(){
 });
 
 
-describe("Browsers that support localStorage", function(){
+describe("Tests for browsers with localStorage support", function(){
 
     if (!locache.supportsLocalStorage) return;
 
@@ -118,7 +118,7 @@ describe("Browsers that support localStorage", function(){
      * Resume normal testing - for browsers that *do* support localStorage.
      */
 
-    it("length and flush", function(){
+    it("should test the length of the cache and flushing", function(){
 
         expect(locache.length()).toBe(0);
         locache.set("key", "value");
@@ -128,7 +128,7 @@ describe("Browsers that support localStorage", function(){
 
     });
 
-    it("setting, getting and removing simple values", function(){
+    it("should test setting, getting and removing simple values", function(){
 
         var key = "my_key";
         var value = "my_value";
@@ -144,7 +144,7 @@ describe("Browsers that support localStorage", function(){
 
     });
 
-    it("setting a value with an expire time", function(){
+    it("should test setting a value with an expire time", function(){
 
         var key = "will_expire";
         var value = "value";
@@ -172,7 +172,7 @@ describe("Browsers that support localStorage", function(){
 
     });
 
-    it("incr and decr'ing of keys", function(){
+    it("should test incr and decr'ing of keys", function(){
 
         locache.incr("counter");
         expect(locache.get("counter")).toBe(1);
@@ -194,7 +194,7 @@ describe("Browsers that support localStorage", function(){
 
     });
 
-    it("test many operations - set, get, remove", function(){
+    it("should test test many operations - set, get, remove", function(){
 
         locache.setMany({
             'key1': 'val1',
@@ -213,7 +213,7 @@ describe("Browsers that support localStorage", function(){
 
     });
 
-    it("storing objects", function(){
+    it("should test storing objects", function(){
 
         locache.set('user', {
             'name': "Dougal Matthews",
@@ -229,7 +229,7 @@ describe("Browsers that support localStorage", function(){
 
     });
 
-    it("expire calculations", function(){
+    it("should test expire calculations", function(){
 
         var now = new Date().getTime(),
             past = now / 10,
@@ -247,9 +247,14 @@ describe("Browsers that support localStorage", function(){
         locache.storage.set(expireKey, past);
         expect(locache.hasExpired(key)).toBe(true);
 
-        // set the expire to "now", which should have expired given that
-        // some small fractions of a second should have passed by now.
-        locache.storage.set(expireKey, now);
+        // set the expire to "now", plus 5 seconds to make sure its not quite
+        // expired yet.
+        locache.storage.set(expireKey, now + 5);
+        expect(locache.hasExpired(key)).toBe(false);
+
+        // set the expire to "now", minus a second to make sure its just
+        // expired.
+        locache.storage.set(expireKey, now - 1);
         expect(locache.hasExpired(key)).toBe(true);
 
         // Finally, test the future.
@@ -259,7 +264,7 @@ describe("Browsers that support localStorage", function(){
     });
 
 
-    it("cleaning up expired values", function(){
+    it("should test cleaning up expired values", function(){
 
         localStorage.clear();
 
