@@ -1,8 +1,6 @@
-$(function(){
+describe("Browsers without localStorage", function(){
 
-    if (locache.supportsLocalStorage) localStorage.clear();
-
-    test("local storage is supported by the testing browser.", function() {
+    it("local storage is supported by the testing browser.", function() {
 
         var msg = [
             "This test is intended to fail to make you aware that",
@@ -12,7 +10,11 @@ $(function(){
             "are skipped, but some will run to verify graceful degrading."
         ].join(" ");
 
-        ok(locache.supportsLocalStorage, msg);
+        if (!locache.supportsLocalStorage){
+            console.log(msg);
+        }
+
+        expect(locache.supportsLocalStorage).toBe(true);
 
     });
 
@@ -21,10 +23,10 @@ $(function(){
     // dropped siliently and fetches should act like a cache miss.
     if(!locache.supportsLocalStorage){
 
-        test("silent failing when localStorage isn't supported", function(){
+        it("silent failing when localStorage isn't supported", function(){
 
             locache.set("my_key", "my_value");
-            strictEqual(locache.get("my_key"), null);
+            expect(locache.get("my_key")).toBe(null);
             locache.remove("my_key");
             locache.incr("my_key");
             locache.decr("my_key");
@@ -32,67 +34,56 @@ $(function(){
                 "key 1": "value 1",
                 "key 2": "value 2"
             });
-            deepEqual(locache.getMany(['key 1', 'key 2']), [null, null]);
+            expect(locache.getMany(['key 1', 'key 2'])).toBe([null, null]);
             locache.removeMany(['key 1', 'key 2']);
             locache.flush();
             locache.cleanup();
 
         });
 
-        test("with no localStorage length and flush", function(){
+        it("with no localStorage length and flush", function(){
 
-            strictEqual(locache.length(), 0);
+            expect(locache.length()).toBe(0);
             locache.set("key", "value");
-            strictEqual(locache.length(), 0);
+            expect(locache.length()).toBe(0);
             locache.flush();
-            strictEqual(locache.length(), 0);
+            expect(locache.length()).toBe(0);
 
         });
 
-        test("with no localStorage setting, getting and removing simple values", function(){
+        it("with no localStorage setting, getting and removing simple values", function(){
 
             var key = "my_key";
             var value = "my_value";
 
             locache.set(key, value);
-            strictEqual(locache.get(key), null);
+            expect(locache.get(key)).toBe(null);
 
             locache.remove(key);
-            strictEqual(locache.get(key), null);
+            expect(locache.get(key)).toBe(null);
 
         });
 
-        test("with no localStorage setting a value with an expire time", function(){
+        it("with no localStorage setting a value with an expire time", function(){
 
             var key = "will_expire";
             var value = "value";
 
             locache.set(key, value, 1);
-            strictEqual(locache.get(key), null);
-
-            setTimeout(function(){
-                strictEqual(locache.get(key), null);
-            }, 100);
-
-            setTimeout(function(){
-                strictEqual(locache.get(key), null);
-                start();
-            }, 1000);
-
-            stop();
+            expect(locache.get(key)).toBe(null);
 
         });
 
-        test("with no localStorage incr and decr'ing of keys", function(){
+        it("with no localStorage incr and decr'ing of keys", function(){
 
             locache.incr("counter");
-            strictEqual(locache.get("counter"), null);
+            expect(locache.get("counter")).toBe(null);
             locache.decr("counter");
-            strictEqual(locache.get("counter"), null);
+            expect(locache.get("counter")).toBe(null);
 
         });
 
-        test("with no localStorage test many operations - set, get, remove", function(){
+        it("with no localStorage test many operations - set, get, remove", function(){
 
             locache.setMany({
                 'key1': 'val1',
@@ -101,10 +92,10 @@ $(function(){
             });
 
             var vals = locache.getMany(['key1','key2','key3']);
-            deepEqual(vals, [null, null, null]);
+            expect(vals).toBe([null, null, null]);
             locache.removeMany(['key1','key2','key3']);
             var vals2 = locache.getMany(['key1','key2','key3']);
-            deepEqual(vals2, [null, null, null]);
+            expect(vals2).toBe([null, null, null]);
 
         });
 
@@ -112,82 +103,98 @@ $(function(){
 
     }
 
+});
+
+
+describe("Browsers that support localStorage", function(){
+
+    if (!locache.supportsLocalStorage) return;
+
+    beforeEach(function(){
+        localStorage.clear();
+    });
+
     /*
      * Resume normal testing - for browsers that *do* support localStorage.
      */
 
-    test("length and flush", function(){
+    it("length and flush", function(){
 
-        strictEqual(locache.length(), 0);
+        expect(locache.length()).toBe(0);
         locache.set("key", "value");
-        strictEqual(locache.length(), 1);
+        expect(locache.length()).toBe(1);
         locache.flush();
-        strictEqual(locache.length(), 0);
+        expect(locache.length()).toBe(0);
 
     });
 
-    test("setting, getting and removing simple values", function(){
+    it("setting, getting and removing simple values", function(){
 
         var key = "my_key";
         var value = "my_value";
 
         locache.set(key, value);
-        strictEqual(locache.get(key), value);
+        expect(locache.get(key)).toBe(value);
 
         locache.remove(key);
-        strictEqual(locache.get(key), null);
+        expect(locache.get(key)).toBe(null);
 
         locache.set("my_number", 11);
-        strictEqual(locache.get("my_number"), 11);
+        expect(locache.get("my_number")).toBe(11);
 
     });
 
-    test("setting a value with an expire time", function(){
+    it("setting a value with an expire time", function(){
 
         var key = "will_expire";
         var value = "value";
 
         locache.set(key, value, 1);
-        strictEqual(locache.get(key), value);
+        expect(locache.get(key)).toBe(value);
+
+        var callCount = 0;
 
         // Should still be there after 100 ms
         setTimeout(function(){
-            strictEqual(locache.get(key), value);
+            expect(locache.get(key)).toBe(value);
+            callCount++;
         }, 100);
 
         // after a full second, it should have expired.
         setTimeout(function(){
-            strictEqual(locache.get(key), null);
-            start();
+            expect(locache.get(key)).toBe(null);
+            callCount++;
         }, 1000);
 
-        stop();
+        waitsFor(function(){
+            return callCount == 2;
+        });
 
     });
 
-    test("incr and decr'ing of keys", function(){
+    it("incr and decr'ing of keys", function(){
 
         locache.incr("counter");
-        strictEqual(locache.get("counter"), 1);
+        expect(locache.get("counter")).toBe(1);
         locache.incr("counter");
-        strictEqual(locache.get("counter"), 2);
+        expect(locache.get("counter")).toBe(2);
         locache.decr("counter");
-        strictEqual(locache.get("counter"), 1);
+        expect(locache.get("counter")).toBe(1);
         locache.decr("counter");
-        strictEqual(locache.get("counter"), 0);
+        expect(locache.get("counter")).toBe(0);
         locache.decr("counter");
-        strictEqual(locache.get("counter"), -1);
+        expect(locache.get("counter")).toBe(-1);
 
         locache.decr("negativecounter");
-        strictEqual(locache.get("negativecounter"), -1);
+        expect(locache.get("negativecounter")).toBe(-1);
 
         locache.set("my_number", 11);
         locache.incr("my_number");
-        strictEqual(locache.get("my_number"), 12);
+        expect(locache.get("my_number")).toBe(12);
 
     });
 
-    test("test many operations - set, get, remove", function(){
+    it("test many operations - set, get, remove", function(){
 
         locache.setMany({
             'key1': 'val1',
@@ -196,17 +203,17 @@ $(function(){
         });
 
         var vals = locache.getMany(['key1','key2','key3']);
-        deepEqual(vals, ['val1', 'val2', 'val3']);
+        expect(vals).toEqual(['val1', 'val2', 'val3']);
 
-        strictEqual(locache.get('key1'), 'val1');
+        expect(locache.get('key1')).toBe('val1');
 
         locache.removeMany(['key1','key2','key3']);
         var vals2 = locache.getMany(['key1','key2','key3']);
-        deepEqual(vals2, [null, null, null]);
+        expect(vals2).toEqual([null, null, null]);
 
     });
 
-    test("storing objects", function(){
+    it("storing objects", function(){
 
         locache.set('user', {
             'name': "Dougal Matthews",
@@ -215,14 +222,14 @@ $(function(){
 
         var result = locache.get('user');
 
-        deepEqual(result, {
+        expect(result).toEqual({
             'name': "Dougal Matthews",
             'admin': true
         });
 
     });
 
-    test("expire calculations", function(){
+    it("expire calculations", function(){
 
         var now = new Date().getTime(),
             past = now / 10,
@@ -238,21 +245,21 @@ $(function(){
 
         // Now manually set the expire date as in the past.
         locache.storage.set(expireKey, past);
-        strictEqual(locache.hasExpired(key), true);
+        expect(locache.hasExpired(key)).toBe(true);
 
         // set the expire to "now", which should have expired given that
         // some small fractions of a second should have passed by now.
         locache.storage.set(expireKey, now);
-        strictEqual(locache.hasExpired(key), true);
+        expect(locache.hasExpired(key)).toBe(true);
 
         // Finally, test the future.
         locache.storage.set(expireKey, future);
-        strictEqual(locache.hasExpired(key), false);
+        expect(locache.hasExpired(key)).toBe(false);
 
     });
 
 
-    test("cleaning up expired values", function(){
+    it("cleaning up expired values", function(){
 
         localStorage.clear();
 
@@ -279,18 +286,16 @@ $(function(){
 
         // Both values should be stored in localStorage - by passing the
         // normal get method to avoid the checks for validation
-        strictEqual(locache.storage.get(cacheKey1), "value1");
-        strictEqual(locache.storage.get(cacheKey2), "value2");
+        expect(locache.storage.get(cacheKey1)).toBe("value1");
+        expect(locache.storage.get(cacheKey2)).toBe("value2");
 
         // Perform a cleanup.
         locache.cleanup();
 
         // Check the values again, the first should have been removed but the
         // second should be as originally stored.
-        strictEqual(locache.storage.get(cacheKey1), null);
-        strictEqual(locache.storage.get(cacheKey2), "value2");
-
-
+        expect(locache.storage.get(cacheKey1)).toBe(null);
+        expect(locache.storage.get(cacheKey2)).toBe("value2");
 
     });
 
