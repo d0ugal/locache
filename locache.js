@@ -31,9 +31,6 @@
     locache.storage = {
 
         set : function(key, value){
-            // Due to a strange bug (seen usually on the iPad) removing the
-            // key before setting it can avoid QUOTA_EXCEEDED_ERR's
-            localStorage.removeItem(key);
             return localStorage.setItem(key, value);
         },
 
