@@ -233,7 +233,12 @@
 
         for (var i=0; i < length; i++) {
             var key = this.storage.key(i);
-            if (key.indexOf(prefix) === 0) this.storage.remove(key);
+            if (key && key.indexOf(prefix) === 0){
+                var actualKey = key.substring(prefix.length, key.length);
+                if (this.hasExpired(actualKey)){
+                    this.remove(actualKey);
+                }
+            }
         }
 
     };
