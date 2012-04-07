@@ -1,11 +1,14 @@
 locache
 ------------------------------
 
-locache is a python memcache inspired interface to localStorage in the
-browser. locache has no dependacies and is very small. locache will degrade
-well, meaning that if your using a browser that doesn't support localStorage
-(usually IE6 or IE7) then you wont get any errors, but caching attempts will
-be silently dropped and lookups will always appear to be a cache miss.
+JavaScript caching framework for client side caching in the browser using
+localStorage. With a memcache inspired API usage is very easy and familiar.
+locache has no dependacies and is very small.
+
+locache gracefully degrades when the browser doesn't support localStorage.
+Usually this will be IE6 or IE7, you wont get any errors, but caching
+attempts will be silently dropped and lookups will always appear to be a
+cache miss.
 
 
 Setting, Getting and removing values
