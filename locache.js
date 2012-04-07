@@ -139,9 +139,9 @@
         if (!current){
             current = 0;
         }
-        var new_number = current + 1;
-        this.set(key, new_number);
-        return new_number;
+        current ++;
+        this.set(key, current);
+        return current;
 
     };
 
@@ -152,9 +152,9 @@
         if (!current){
             current = 0;
         }
-        var new_number = current - 1;
-        this.set(key, new_number);
-        return new_number;
+        current --;
+        this.set(key, current);
+        return current;
 
     };
 
