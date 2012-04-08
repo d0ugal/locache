@@ -3,7 +3,7 @@ locache
 
 JavaScript caching framework for client side caching in the browser using
 localStorage. With a memcache inspired API usage is very easy and familiar.
-locache has no dependacies and is very small.
+locache has no dependencies and is very small.
 
 locache gracefully degrades when the browser doesn't support localStorage.
 Usually this will be IE6 or IE7, you wont get any errors, but caching
@@ -11,7 +11,7 @@ attempts will be silently dropped and lookups will always appear to be a
 cache miss.
 
 
-Setting, Getting and removing values
+Setting, getting and removing values
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Values can be stored one at a time as shown below, these values will never
@@ -26,7 +26,7 @@ expire and will only be removed when you (or the browser) removes them.
 
     locache.remove("my_key");
 
-When you store an object, that's what you'll get back. For example, a number;
+When you store an object, that's what you'll get back. For example, a number:
 
 ::
 
@@ -81,7 +81,7 @@ Setting values that expire
     locache.get("expiring_key");
 
 
-Incrementing and decremening? Sure.
+Incrementing and decrementing? Sure.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ::
