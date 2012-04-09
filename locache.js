@@ -1,6 +1,6 @@
 /*jshint asi:true */
 
-//      locache 0.1.0
+//      locache VERSION-PLACEHOLDER
 //
 //      (c) 2012 Dougal Matthews
 //      locache may be freely distributed under the MIT licence.
@@ -29,7 +29,7 @@
 
     // Current version of locache. Keep this in sync with the version
     // at the top of this file.
-    locache.VERSION = "0.1.0"
+    locache.VERSION = "VERSION-PLACEHOLDER"
 
     // Boolean value that determines if they browser supports localStorage or
     // not. This is based on the Modernizr implementation that can be found
