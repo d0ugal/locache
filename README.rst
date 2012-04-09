@@ -19,19 +19,19 @@ expire and will only be removed when you (or the browser) removes them.
 
 ::
 
-    locache.set("my_key", "my_value");
+    locache.set("my_key", "my_value")
 
-    locache.get("my_key");
+    locache.get("my_key")
     // my_value
 
-    locache.remove("my_key");
+    locache.remove("my_key")
 
 When you store an object, that's what you'll get back. For example, a number:
 
 ::
 
-    locache.set("counter", 1);
-    typeof locache.get("counter");
+    locache.set("counter", 1)
+    typeof locache.get("counter")
     // number
 
 
@@ -46,7 +46,7 @@ serializable.
         'alias': d0ugal
     })
 
-    var result = locache.get('user');
+    var result = locache.get('user')
 
     //{
     //    'name': "Dougal Matthews",
@@ -61,12 +61,12 @@ You can also perform batch operations.
     locache.setMany({
         'name': 'locache',
         'language': 'JavaScript'
-    });
+    })
 
-    locache.getMany(['name', 'language']);
-    // ['locache', 'JavaScript'];
+    locache.getMany(['name', 'language'])
+    // ['locache', 'JavaScript']
 
-    locache.removeMany(['name', 'language']);
+    locache.removeMany(['name', 'language'])
 
 
 Setting values that expire
@@ -74,11 +74,11 @@ Setting values that expire
 
 ::
 
-    seconds = 5;
-    locache.get("expiring_key", "expiring_value", seconds);
+    seconds = 5
+    locache.get("expiring_key", "expiring_value", seconds)
 
     // After 5 seconds this will return null.
-    locache.get("expiring_key");
+    locache.get("expiring_key")
 
 
 Incrementing and decrementing? Sure.
@@ -86,15 +86,15 @@ Incrementing and decrementing? Sure.
 
 ::
 
-    locache.incr("counter");
+    locache.incr("counter")
     // 1
-    locache.incr("counter");
+    locache.incr("counter")
     // 2
-    locache.decr("counter");
+    locache.decr("counter")
     // 1
-    locache.decr("counter");
+    locache.decr("counter")
     // 0
-    locache.decr("counter");
+    locache.decr("counter")
     // -1
 
 
@@ -105,7 +105,7 @@ Use the following to clear only the locache values stored in localStorage.
 
 ::
 
-    locache.flush();
+    locache.flush()
 
 
 Performing cleanup
@@ -118,4 +118,4 @@ setTimeout loop.
 
 ::
 
-    locache.cleanup();
+    locache.cleanup()
