@@ -1,6 +1,7 @@
 /*jshint asi:true */
+"use strict";
 
-describe("README: Tests for browsers without localStorage support", function(){
+describe("README: Tests for browsers without Storage support", function(){
 
     it("should test that localStorage is enabled in this browser, if it is, this will pass and the remaining tests will be skipped.", function() {
 
@@ -109,7 +110,7 @@ describe("Tests for browsers with localStorage support", function(){
     if (!locache.supportsLocalStorage) return
 
     beforeEach(function(){
-        localStorage.clear()
+        window.localStorage.clear()
     })
 
     /*
@@ -264,7 +265,7 @@ describe("Tests for browsers with localStorage support", function(){
 
     it("should test cleaning up expired values", function(){
 
-        localStorage.clear()
+        window.localStorage.clear()
 
         var now = new Date().getTime(),
             past = now / 10,
@@ -303,3 +304,65 @@ describe("Tests for browsers with localStorage support", function(){
     })
 
 })
+
+
+describe("Tests for sessionStorage support", function(){
+
+    if (!locache.supportsSessionStorage) return
+
+    beforeEach(function(){
+        window.sessionStorage.clear()
+    })
+
+    /*
+     * Resume normal testing - for browsers that *do* support sessionStorage.
+     */
+
+    it("should test setting a value with an expire time", function(){
+
+        var key = "will_expire"
+        var value = "value"
+
+        locache.session.set(key, value, 1)
+        expect(locache.session.get(key)).toBe(value)
+
+        var callCount = 0
+
+        // Should still be there after 100 ms
+        setTimeout(function(){
+            expect(locache.session.get(key)).toBe(value)
+            callCount++
+        }, 100)
+
+        // after a full second, it should have expired.
+        setTimeout(function(){
+            expect(locache.session.get(key)).toBe(null)
+            callCount++
+        }, 2000)
+
+        waitsFor(function(){
+            return callCount == 2
+        })
+
+    })
+
+});
+
+describe("Test for custom storage", function(){
+
+    var f = function(){}
+    var mockStorage = {
+        set: f,
+        enabled: function(){
+            return true
+        }
+    }
+
+    var getSpy = sinon.spy(mockStorage, "set");
+    var myCache = locache.createCache({storage: mockStorage})
+
+    myCache.set("x", "y")
+    expect(mockStorage.set.calledOnce).toBe(true);
+
+
+});
