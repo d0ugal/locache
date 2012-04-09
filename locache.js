@@ -13,6 +13,8 @@
 
 (function(){
 
+    "use strict";
+
     // Initial Setup
     // --------------------
 
@@ -143,7 +145,7 @@
         if(seconds){
             // The time stored is in milliseconds, but this function expects
             // seconds, so multiply by 1000.
-            ms = seconds * 1000
+            var ms = seconds * 1000
             this.storage.set(expireKey, _currentTime() + ms)
         }
 
