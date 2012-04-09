@@ -246,7 +246,7 @@
 
     // Given a properties object, in the form of {key: value, key:value} set
     // multiple keys.
-    locache.setMany = function(properties){
+    locache.setMany = function(properties, seconds){
 
         // If localStorage isn't supported perform a no-op.
         if (!this.supportsLocalStorage) return
@@ -256,7 +256,7 @@
             // Ignore any inherited properties, by making sure they are in
             // the given objecct.
             if (properties.hasOwnProperty(key)) {
-                locache.set(key, properties[key])
+                locache.set(key, properties[key], seconds)
             }
         }
 
