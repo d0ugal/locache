@@ -301,11 +301,12 @@ footer .copy{
   }
 
   .block h1{
-    font-size: 1em;
+    font-size: 2em;
   }
 
   #container .block {
     width: 92%;
+    margin: 1em 4% 1em 4%;
     float: none;
   }
   footer {
@@ -318,6 +319,9 @@ footer .copy{
   header h1{
     font-size: 2em;
   }
+  .block h1{
+    font-size: 1em;
+  }
   footer {
     padding: 0 5% 0 5%;
   }
@@ -326,7 +330,8 @@ footer .copy{
 @media only screen and (orientation:portrait){
 
   #container .block {
-    width: 92%;
+    width: 96%;
+    margin: 1em 2% 1em 2%;
     float: none;
 
   }
