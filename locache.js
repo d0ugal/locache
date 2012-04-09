@@ -25,7 +25,7 @@
 
     // Current version of locache. Keep this in sync with the version
     // at the top of this file.
-    locache.VERSION = "1.0.0"
+    locache.VERSION = "0.1.0"
 
     // Boolean value that determines if they browser supports localStorage or
     // not. This is based on the Modernizr implementation that can be found
