@@ -1,3 +1,5 @@
+/*jshint asi:true */
+
 describe("README: Tests for browsers without localStorage support", function(){
 
     it("should test that localStorage is enabled in this browser, if it is, this will pass and the remaining tests will be skipped.", function() {
