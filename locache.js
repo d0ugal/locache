@@ -1,3 +1,5 @@
+/*jshint asi:true */
+
 //      locache 0.1.0
 //
 //      (c) 2012 Dougal Matthews
