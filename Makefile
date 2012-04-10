@@ -1,8 +1,7 @@
 .PHONY : clean build-min docs
 
-VERSION = $(shell cat version.txt)
-BRANCH = `git branch | grep \* | cut -d' ' -f 2`
-
+VERSION = $(shell cat version.txt);
+BRANCH = $(shell git branch | grep \* | cut -d' ' -f 2)
 build: | build-min docs
 
 build-min:
