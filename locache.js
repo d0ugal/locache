@@ -21,6 +21,13 @@
     // Save a reference to the global window object.
     var root = this
 
+    // Cache class constructor. This is the base &ldquo;class&rdquo; for
+    // locache and is used for the global instance plus any of your own
+    // custom caches.
+    // The constructor accepts a properties object, and assigns each value
+    // of the object to the instance. At the moment, this is only really used
+    // to set the 'storage' property - so you can choose a builtin or use
+    // your own storage mechanism.
     function LocacheCache(options){
 
         for (var key in options) {
@@ -31,7 +38,7 @@
 
     }
 
-    // The top-level namespace. All public locache objects will be
+    // The top-level instance. All public locache objects will be
     // attached to this object.
     var locache = new LocacheCache()
 
@@ -432,9 +439,17 @@
 
     }
 
+    // A factory method added to the LocacheCache constructor to create
+    // instances of itself. Rather than placing the class publicly, wrap
+    // it up in a method and keep it for internal usage.
     LocacheCache.prototype.createCache = function(options){
         return new LocacheCache(options)
     }
+
+    // To provide easy access to session caching, attack another instance of
+    // locache to the main object. This means we can now use the full API
+    // against sessionStorage simply by doing: `locache.session.set(...)` and
+    // `locache.session.get(...)`
 
     locache.session = new LocacheCache({
         storage: locache.backends.session
