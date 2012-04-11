@@ -238,8 +238,9 @@
     // doesn't exist (or has expired) return null.
     LocacheCache.prototype.get = function(key){
 
-        // If the storage backend isn't enabled perform a no-op.
-        if (!this.storage.enabled()) return null
+        // If the storage backend isn't supported or the key passed in is
+        // falsy, perform a no-op and return null.
+        if (!this.storage.enabled() || !key) return null
 
         // If the value has expired, before returning null remove the key
         // from the storage backend to free up the space.
