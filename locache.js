@@ -344,6 +344,28 @@
     // exist, null will be in their place.
     LocacheCache.prototype.getMany = function(keys){
 
+        var results = {}
+
+        for (var i=0; i < keys.length; i++){
+            // To ensure that the correct structure is returned, if
+            // the storage backend isn't enabled return an array of null
+            // values with the correct length.
+            if (this.storage.enabled()){
+                results[keys[i]] = this.get(keys[i])
+            } else {
+                results[keys[i]] = null
+            }
+        }
+
+        return results
+
+    }
+
+
+    // Given an array of keys, return an array of values. If values don't
+    // exist, null will be in their place.
+    LocacheCache.prototype.getManyValues = function(keys){
+
         var results = []
 
         for (var i=0; i < keys.length; i++){
