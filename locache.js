@@ -170,7 +170,7 @@
         }
     }
 
-    LocacheCache.prototype.storage = locache.backends.local;
+    LocacheCache.prototype.storage = locache.backends.local
 
     // Utility method to get the number of milliseconds since the Epoch. This
     // is used when comparing keys to see if they have expired.
