@@ -12,9 +12,9 @@ describe("Expire Calculations:", function(){
         var store = {}
         this.store = store
         this.storage = {
-            set : function(key, value){ return store[key] = value },
-            get : function(key, value){ return store[key] || null },
-            remove : function(key){ delete store[key] },
+            set: function(key, value){ return store[key] = value },
+            get: function(key, value){ return store[key] || null },
+            remove: function(key){ delete store[key] },
             enabled: function(){ return true },
             length: function(){
                 var keys = []

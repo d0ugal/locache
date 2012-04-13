@@ -9,8 +9,6 @@
 //      with DOM Storage and proves a memcache inspired API for
 //      setting and retrieving values.
 
-//
-
 (function(){
 
     "use strict";
@@ -99,6 +97,55 @@
     // Internal utility functions
     // --------------------
 
+    var defer = (function(){
+
+        var timeouts = []
+        var messageName = "function-defer-message"
+
+        window.addEventListener("message", function (event) {
+
+            if (event.source !== window || event.data !== messageName) return
+            event.stopPropagation();
+            if (timeouts.length === 0) return
+
+            var fn = timeouts.shift();
+            fn();
+
+        }, true);
+
+
+        function Deferred(fn){
+            this.fn = fn
+        }
+
+        Deferred.prototype.defer = function(){
+            var result = this.resultValue = this.fn()
+            if (this.hasOwnProperty('finishedFunction')){
+                this.finishedFunction(result)
+            }
+        }
+
+        Deferred.prototype.hasFinished = function(){
+            return this.hasOwnProperty('resultValue')
+        }
+
+        Deferred.prototype.finished = function(fn){
+            this.finishedFunction = fn
+        }
+
+        function defer(fn) {
+            var d = new Deferred(fn)
+            timeouts.push(d.defer.bind(d));
+            window.postMessage(messageName, "*");
+            return d
+        }
+
+
+        return defer
+
+
+    })()
+
     // Two cache prefixes. When storing values, all keys are prefixed
     // to avoid collisions with other usage of the storage backend.
     // If the stored value is given an expire time then a second key
@@ -113,23 +160,56 @@
         // Wrapper around localStorage - persistent local storage in the
         // browser.
         local: {
-            set : function(key, value){
+            set: function(key, value){
                 return window.localStorage.setItem(key, value)
             },
 
-            get : function(key, value){
+            get: function(key){
                 return window.localStorage.getItem(key)
             },
 
-            remove : function(key){
+            remove: function(key){
                 return window.localStorage.removeItem(key)
             },
 
-            length : function(key){
+            length: function(key){
                 return window.localStorage.length
             },
 
-            key : function(index){
+            key: function(index){
+                if (index < 0 || index >= this.length()){
+                    return
+                }
+                return window.localStorage.key(index)
+            },
+            enabled: function(){
+                return locache.supportsLocalStorage
+            }
+        },
+        // Wrapper around localStorage - persistent local storage in the
+        // browser.
+        asynclocal: {
+            set: function(key, value){
+                return defer(function(){
+                    return window.localStorage.setItem(key, value)
+                })
+            },
+
+            get: function(key){
+                return defer(function(){
+                    return window.localStorage.getItem(key)
+                })
+            },
+
+            remove: function(key){
+                return window.localStorage.removeItem(key)
+            },
+
+            length: function(key){
+                return window.localStorage.length
+            },
+
+            key: function(index){
                 if (index < 0 || index >= this.length()){
                     return
                 }
@@ -141,24 +221,24 @@
         },
         // Wrapper around sessionStorage - storage in the browser that is
         // cleared each time a new session is started - new browser window etc.
-        session : {
-            set : function(key, value){
+        session: {
+            set: function(key, value){
                 return window.sessionStorage.setItem(key, value)
             },
 
-            get : function(key, value){
+            get: function(key){
                 return window.sessionStorage.getItem(key)
             },
 
-            remove : function(key){
+            remove: function(key){
                 return window.sessionStorage.removeItem(key)
             },
 
-            length : function(key){
+            length: function(key){
                 return window.sessionStorage.length
             },
 
-            key : function(index){
+            key: function(index){
                 if (index < 0 || index >= this.length()){
                     return
                 }
@@ -230,7 +310,7 @@
         // that we can safely store many types of objects. They still need to
         // be serialisable so it still rules out some, such as functions.
         value = JSON.stringify(value)
-        this.storage.set(valueKey, value)
+        return this.storage.set(valueKey, value)
 
     }
 
