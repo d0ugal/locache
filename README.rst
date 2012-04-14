@@ -74,11 +74,11 @@ Setting values that expire
 
 ::
 
-    seconds = 5
-    locache.get("expiring_key", "expiring_value", seconds)
+    seconds = 5;
+    locache.set("key", "value", seconds);
 
     // After 5 seconds this will return null.
-    locache.get("expiring_key")
+    locache.get("key");
 
 
 Incrementing and decrementing? Sure.
