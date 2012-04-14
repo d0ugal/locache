@@ -75,7 +75,7 @@ Setting values that expire
 ::
 
     seconds = 5;
-    locache.get("expiring_key", "expiring_value", seconds);
+    locache.set("expiring_key", "expiring_value", seconds);
 
     // After 5 seconds this will return null.
     locache.get("expiring_key");
