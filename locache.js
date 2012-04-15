@@ -97,7 +97,7 @@
     // Internal utility functions
     // --------------------
 
-    var defer = (function(){
+    var defer = LocacheCache.prototype._defer = (function(){
 
         var timeouts = []
         var messageName = "function-defer-message"
@@ -119,9 +119,9 @@
         }
 
         Deferred.prototype.defer = function(){
-            var result = this.resultValue = this.fn()
+            this.resultValue = this.fn()
             if (this.hasOwnProperty('finishedFunction')){
-                this.finishedFunction(result)
+                this.finishedFunction(this.resultValue)
             }
         }
 
@@ -131,6 +131,10 @@
 
         Deferred.prototype.finished = function(fn){
             this.finishedFunction = fn
+            if (this.hasFinished()){
+                this.finishedFunction(this.resultValue)
+            }
+            return this
         }
 
         function defer(fn) {
@@ -140,9 +144,7 @@
             return d
         }
 
-
         return defer
-
 
     })()
 
