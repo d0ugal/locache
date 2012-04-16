@@ -1,2 +1,9 @@
 
-suite()
+gauge.suite({
+    "" : function(){
+
+    },
+    "" : function(){
+
+    }
+})

@@ -9,6 +9,9 @@
 
   <title>locache.js benchmarks</title>
 
+  <link rel="stylesheet" type="text/css" href="lib/guage.css">
+  <script type="text/javascript" src="lib/gauge.js"></script>
+  <script src="../../gh-pages/js/libs/modernizr-2.0.6.min.js"></script>
 
   <!-- include source files here... -->
   <script type="text/javascript" src="../../locache.js"></script>
@@ -21,6 +24,35 @@
 <body>
 
   <h1>locache benchmarks</h1>
+
+  <script type="text/javascript">
+    (function() {
+      var gaugeEnv = gauge.getEnv();
+      gaugeEnv.updateInterval = 1000;
+
+      var htmlReporter = new gauge.HtmlReporter();
+
+      gaugeEnv.addReporter(htmlReporter);
+
+      gaugeEnv.specFilter = function(spec) {
+        return htmlReporter.specFilter(spec);
+      };
+
+      var currentWindowOnload = window.onload;
+
+      window.onload = function() {
+        if (currentWindowOnload) {
+          currentWindowOnload();
+        }
+        execGauge();
+      };
+
+      function execGauge() {
+        gaugeEnv.execute();
+      }
+
+    })();
+  </script>
 
   <script>
     window._gaq = [['_setAccount','UA-30710441-1'],['_trackPageview'],['_trackPageLoadTime']];
