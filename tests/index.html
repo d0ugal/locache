@@ -9,6 +9,8 @@
   <script type="text/javascript" src="lib/sinon-1.3.2.js"></script>
   <script type="text/javascript" src="lib/jasmine-html.js"></script>
 
+  <script src="../gh-pages/js/libs/modernizr-2.0.6.min.js"></script>
+
   <!-- include source files here... -->
   <script type="text/javascript" src="../locache.js"></script>
 
@@ -48,6 +50,13 @@
       }
 
     })();
+  </script>
+
+  <script>
+    window._gaq = [['_setAccount','UA-30710441-1'],['_trackPageview'],['_trackPageLoadTime']];
+    Modernizr.load({
+      load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
+    });
   </script>
 
 </head>
