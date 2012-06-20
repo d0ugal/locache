@@ -108,4 +108,12 @@ describe("Expire Calculations:", function(){
 
     });
 
+    it("should flush out all our keys", function(){
+        var pairs = {'key1': 'val1','key2': 'val2','key3': 'val3'};
+        this.cache.setMany(pairs);
+        this.cache.flush();
+        var vals = this.cache.getManyValues(['key1','key2','key3']);
+        expect(vals).toEqual([null, null, null]);
+    });
+
 });

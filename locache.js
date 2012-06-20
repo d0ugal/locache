@@ -509,7 +509,8 @@
 
         // Iteratate through all the keys stored in the storage backend - if
         // the key tarts with the prefix cache prefix, then remove that key.
-        for (var i=0; i < length; i++) {
+        // backwards to make sure removing items does not mess up the index
+        for (var i=length-1; i >= 0; i-- ) {
             var key = this.storage.key(i);
             if (key && key.indexOf(prefix) === 0) this.storage.remove(key);
         }
