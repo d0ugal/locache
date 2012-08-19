@@ -18,6 +18,9 @@ describe("defer:", function () {
             expect(c).toBe(1);
         });
         expect(c).toBe(0);
+
+        waitsFor(function () {return c > 0; });
+
     });
 
     it("should test finished", function () {
