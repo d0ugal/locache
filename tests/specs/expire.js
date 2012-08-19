@@ -1,8 +1,11 @@
-describe("Expire Calculations:", function(){
+/*jshint forin:true, noarg:true, noempty:true, eqeqeq:true, bitwise:true, strict:true, undef:true, unused:true, curly:true, browser:true, jquery:true, indent:4, maxerr:200 */
+/*global sinon describe beforeEach it expect waitsFor locache */
+
+describe("Expire Calculations:", function () {
 
     "use strict";
 
-    beforeEach(function(){
+    beforeEach(function () {
 
         // Create a partial storage (implementing set, get and remove as
         // needed for these tests) that simply stores in an object.
@@ -10,11 +13,11 @@ describe("Expire Calculations:", function(){
         var store = {};
         this.store = store;
         this.storage = {
-            set: function(key, value){ return store[key] = value; },
-            get: function(key, value){ return store[key] || null; },
-            remove: function(key){ delete store[key]; },
-            enabled: function(){ return true; },
-            length: function(){
+            set: function (key, value) { return store[key] = value; },
+            get: function (key, value) { return store[key] || null; },
+            remove: function (key) { delete store[key]; },
+            enabled: function () { return true; },
+            length: function () {
                 var keys = [];
                 for (var key in store) {
                     if (store.hasOwnProperty(key)) {
@@ -23,7 +26,7 @@ describe("Expire Calculations:", function(){
                 }
                 return keys.length;
             },
-            key: function(i){
+            key: function (i) {
                 var keys = [];
                 for (var key in store) {
                     if (store.hasOwnProperty(key)) {
@@ -34,7 +37,7 @@ describe("Expire Calculations:", function(){
             }
         };
 
-        this.cache = locache.createCache({storage:this.storage});
+        this.cache = locache.createCache({storage: this.storage});
 
         this.now = new Date().getTime();
         this.past = this.now / 10;
@@ -42,7 +45,7 @@ describe("Expire Calculations:", function(){
 
     });
 
-    it("should test key has expired", function(){
+    it("should test key has expired", function () {
 
         var key =  "mykey", expireKey = this.cache.expirePrefix + key;
 
@@ -57,7 +60,7 @@ describe("Expire Calculations:", function(){
 
     });
 
-    it("should test key has not expired", function(){
+    it("should test key has not expired", function () {
 
         var key =  "mykey", expireKey = this.cache.expirePrefix + key;
 
@@ -73,7 +76,7 @@ describe("Expire Calculations:", function(){
     });
 
 
-    it("should test cleaning up expired values", function(){
+    it("should test cleaning up expired values", function () {
 
         var key1 =  "mykey1",
             cacheKey1 = this.cache.cachePrefix + key1,
@@ -108,11 +111,11 @@ describe("Expire Calculations:", function(){
 
     });
 
-    it("should flush out all our keys", function(){
-        var pairs = {'key1': 'val1','key2': 'val2','key3': 'val3'};
+    it("should flush out all our keys", function () {
+        var pairs = {'key1': 'val1', 'key2': 'val2', 'key3': 'val3'};
         this.cache.setMany(pairs);
         this.cache.flush();
-        var vals = this.cache.getManyValues(['key1','key2','key3']);
+        var vals = this.cache.getManyValues(['key1', 'key2', 'key3']);
         expect(vals).toEqual([null, null, null]);
     });
 
