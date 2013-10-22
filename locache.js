@@ -582,6 +582,32 @@
 
     };
 
+    // Return the set of keys in the storage backend. This only returns the
+    // keys stored by locache. Returns an empty array if no keys are found.
+    LocacheCache.prototype.keys = function () {
+
+        // If the storage backend isn't supported perform a no-op and return
+        // an empty array.
+        if (!this.storage.enabled()) {
+            return [];
+        }
+
+        var keys = [];
+        var length = this.storage.length();
+        var prefix = this.cachePrefix;
+
+        for (var i = 0; i < length; i++) {
+            var key = this.storage.key(i);
+            if (key.indexOf(prefix) === 0) {
+                var actualKey = key.substring(prefix.length, key.length);
+                keys.push(actualKey);
+            }
+        }
+
+        return keys;
+
+    };
+
     // A cleanup utility method to remove expired keys. Iterate through all
     // the keys stored in the storage backend. If they key is a locache key
     // (it has the prefix) then check to see if the key has expired. If it

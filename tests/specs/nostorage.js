@@ -21,6 +21,17 @@ describe("No DOM Storage:", function () {
 
     });
 
+    it("with no localStorage keys", function () {
+        expect(this.cache.length()).toBe(0);
+        this.cache.setMany({
+            "key1": "value1",
+            "key2": "value2",
+            "key3": "value3"
+        });
+        expect(this.cache.keys()).toEqual([]);
+    });
+
+
     it("with no localStorage setting, getting and removing simple values", function () {
 
         var key = "my_key";
