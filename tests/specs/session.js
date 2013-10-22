@@ -25,6 +25,23 @@ describe("sessionStorage:", function () {
         expect(this.cache.length()).toBe(3);
     });
 
+    it("should return an empty list of keys", function () {
+        expect(this.cache.length()).toBe(0);
+        window.localStorage.setItem("external", "ignore");
+        expect(this.cache.keys()).toEqual([]);
+    });
+
+    it("should return a list of keys", function () {
+        expect(this.cache.length()).toBe(0);
+        this.cache.setMany({
+            "key1": "value1",
+            "key2": "value2",
+            "key3": "value3"
+        });
+        window.localStorage.setItem("external", "ignore");
+        expect(this.cache.keys()).toEqual(["key1", "key2", "key3"]);
+    });
+
     it("should set and get a string and verify the data type", function () {
         this.cache.set("my_string", "my_value");
         expect(this.cache.get("my_string")).toBe("my_value");
