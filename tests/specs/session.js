@@ -27,7 +27,7 @@ describe("sessionStorage:", function () {
 
     it("should return an empty list of keys", function () {
         expect(this.cache.length()).toBe(0);
-        window.localStorage.setItem("external", "ignore");
+        window.sessionStorage.setItem("external", "ignore");
         expect(this.cache.keys()).toEqual([]);
     });
 

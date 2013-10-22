@@ -28,7 +28,6 @@ describe("No DOM Storage:", function () {
             "key2": "value2",
             "key3": "value3"
         });
-        window.localStorage.setItem("external", "ignore");
         expect(this.cache.keys()).toEqual([]);
     });
 
