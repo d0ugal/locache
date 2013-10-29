@@ -10,14 +10,6 @@ Usually this will be IE6 or IE7, you wont get any errors, but caching
 attempts will be silently dropped and lookups will always appear to be a
 cache miss.
 
-Project Status
-~~~~~~~~~~~~~~
-
-I (@d0ugal) am not actively using or working on locache at this point. As such
-it is not currently being updated. As I know a few people do use the code I am
-looking for a new maintainer to take on the project. If you are interested in
-this, then please get in touch.
-
 When and why?
 ~~~~~~~~~~~~~
 Locache.js isn't a replacement for cache headers, and won't replace real
