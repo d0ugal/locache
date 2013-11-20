@@ -333,6 +333,11 @@
             var ms = seconds * 1000;
             this.storage.set(expireKey, _currentTime() + ms);
         }
+        else {
+            // Remove the expire key, if no timeout is set
+            var expireKey = this.expirekey(key);
+            this.storage.remove(expireKey);
+        }
 
         // For the value, always convert it into a JSON object. THis means
         // that we can safely store many types of objects. They still need to
