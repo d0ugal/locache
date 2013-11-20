@@ -58,6 +58,29 @@ describe("sessionStorage:", function () {
         expect(typeof this.cache.get("my_number")).toBe("number");
     });
 
+    it("should get a cached item after the timeout was omitted", function () {
+
+        // set with timeout
+        this.cache.set("item", "a", 0.1);
+        // remove the timeout
+        this.cache.set("item", "a");
+
+        var callCount = 0;
+
+        var that = this;
+
+        // wait 0.2 seconds to retrieve the item from the cache. Despite
+        // originally setting a
+        setTimeout(function () {
+            expect(that.cache.get("item")).toBe("a");
+            callCount++;
+        }, 200);
+
+         waitsFor(function () {
+            return callCount === 1;
+        });
+    });
+
     it("should test setting a value with an expire time", function () {
 
         var key = "will_expire", value = "value";

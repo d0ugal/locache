@@ -59,26 +59,25 @@ describe("localStorage:", function () {
     });
 
     it("should get a cached item after the timeout was omitted", function () {
+
         // set with timeout
-        this.cache.set("item", "a", 1);
+        this.cache.set("item", "a", 0.1);
         // remove the timeout
         this.cache.set("item", "a");
-        
+
         var callCount = 0;
-        
-        // wait 1.2 seconds until the cache is expired
-        setTimeout(function () {
-            callCount++;
-        }, 1200);
-        
-        // wait 1.3 seconds to retrieve the item from the cache
+
+        var that = this;
+
+        // wait 0.2 seconds to retrieve the item from the cache. Despite
+        // originally setting a
         setTimeout(function () {
             expect(that.cache.get("item")).toBe("a");
             callCount++;
-        }, 1300);
-        
+        }, 200);
+
          waitsFor(function () {
-            return callCount === 2;
+            return callCount === 1;
         });
     });
 
