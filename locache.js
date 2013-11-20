@@ -335,7 +335,6 @@
         }
         else {
             // Remove the expire key, if no timeout is set
-            var expireKey = this.expirekey(key);
             this.storage.remove(expireKey);
         }
 
