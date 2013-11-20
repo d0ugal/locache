@@ -39,7 +39,7 @@ describe("localStorage:", function () {
             "key3": "value3"
         });
         window.localStorage.setItem("external", "ignore");
-        expect(this.cache.keys()).toEqual(["key1", "key2", "key3"]);
+        expect(this.cache.keys().sort()).toEqual(["key1", "key2", "key3"]);
     });
 
     it("should set and get a string and verify the data type", function () {
