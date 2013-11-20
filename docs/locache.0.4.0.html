@@ -946,7 +946,8 @@ seconds, so multiply by 1000.</p>
             
             <div class="content"><div class='highlight'><pre>            <span class="keyword">var</span> ms = seconds * <span class="number">1000</span>;
             <span class="keyword">this</span>.storage.set(expireKey, _currentTime() + ms);
-        }</pre></div></div>
+        }
+        <span class="keyword">else</span> {</pre></div></div>
             
         </li>
         
@@ -956,6 +957,22 @@ seconds, so multiply by 1000.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-50">&#182;</a>
+              </div>
+              <p>Remove the expire key, if no timeout is set</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="keyword">this</span>.storage.remove(expireKey);
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-51">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-51">&#182;</a>
               </div>
               <p>For the value, always convert it into a JSON object. THis means
 that we can safely store many types of objects. They still need to
@@ -971,11 +988,11 @@ be serialisable so it still rules out some, such as functions.</p>
         </li>
         
         
-        <li id="section-51">
+        <li id="section-52">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-51">&#182;</a>
+                <a class="pilcrow" href="#section-52">&#182;</a>
               </div>
               <p>Fetch a value from the cache. Either returns the value, or if it
 doesn&#39;t exist (or has expired) return null.</p>
@@ -987,11 +1004,11 @@ doesn&#39;t exist (or has expired) return null.</p>
         </li>
         
         
-        <li id="section-52">
+        <li id="section-53">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-52">&#182;</a>
+                <a class="pilcrow" href="#section-53">&#182;</a>
               </div>
               <p>If the storage backend isn&#39;t supported or the key passed in is
 falsy, perform a no-op and return null.</p>
@@ -1005,11 +1022,11 @@ falsy, perform a no-op and return null.</p>
         </li>
         
         
-        <li id="section-53">
+        <li id="section-54">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-53">&#182;</a>
+                <a class="pilcrow" href="#section-54">&#182;</a>
               </div>
               <p>If the value has expired, before returning null remove the key
 from the storage backend to free up the space.</p>
@@ -1027,11 +1044,11 @@ from the storage backend to free up the space.</p>
         </li>
         
         
-        <li id="section-54">
+        <li id="section-55">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-54">&#182;</a>
+                <a class="pilcrow" href="#section-55">&#182;</a>
               </div>
               <p>After we have the value back, check its truthy and then attempt to
 parse the JSON. If the JSON parsing fails, return null. This could
@@ -1052,11 +1069,11 @@ values that must have come from another source.</p>
         </li>
         
         
-        <li id="section-55">
+        <li id="section-56">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-55">&#182;</a>
+                <a class="pilcrow" href="#section-56">&#182;</a>
               </div>
               <p>If value isn&#39;t truthy, it must be an empty string or similar, so
 just return that.</p>
@@ -1070,11 +1087,11 @@ just return that.</p>
         </li>
         
         
-        <li id="section-56">
+        <li id="section-57">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-56">&#182;</a>
+                <a class="pilcrow" href="#section-57">&#182;</a>
               </div>
               <p>The async object, provides an extra level to the namespace that
 contains all of the sync calls supports within locache</p>
@@ -1101,11 +1118,11 @@ contains all of the sync calls supports within locache</p>
         </li>
         
         
-        <li id="section-57">
+        <li id="section-58">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-57">&#182;</a>
+                <a class="pilcrow" href="#section-58">&#182;</a>
               </div>
               <p>When removing a key - delete from the storage both the value key/value
 pair and the expiration time key/value pair.</p>
@@ -1117,11 +1134,11 @@ pair and the expiration time key/value pair.</p>
         </li>
         
         
-        <li id="section-58">
+        <li id="section-59">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-58">&#182;</a>
+                <a class="pilcrow" href="#section-59">&#182;</a>
               </div>
               <p>If the storage backend isn&#39;t enabled perform a no-op.</p>
 
@@ -1142,11 +1159,11 @@ pair and the expiration time key/value pair.</p>
         </li>
         
         
-        <li id="section-59">
+        <li id="section-60">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-59">&#182;</a>
+                <a class="pilcrow" href="#section-60">&#182;</a>
               </div>
               <p>Given a key name, fetch it, increment the value and store it again. If
 the counter hasn&#39;t be initialised yet, set it to zero and then perform
@@ -1161,11 +1178,11 @@ will be converted first and thus reset the counter to zero.</p>
         </li>
         
         
-        <li id="section-60">
+        <li id="section-61">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-60">&#182;</a>
+                <a class="pilcrow" href="#section-61">&#182;</a>
               </div>
               <p>If the storage backend isn&#39;t enabled perform a no-op.</p>
 
@@ -1188,11 +1205,11 @@ will be converted first and thus reset the counter to zero.</p>
         </li>
         
         
-        <li id="section-61">
+        <li id="section-62">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-61">&#182;</a>
+                <a class="pilcrow" href="#section-62">&#182;</a>
               </div>
               <p>Exactly the same as the incr function, but with a decrementing value.</p>
 
@@ -1203,11 +1220,11 @@ will be converted first and thus reset the counter to zero.</p>
         </li>
         
         
-        <li id="section-62">
+        <li id="section-63">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-62">&#182;</a>
+                <a class="pilcrow" href="#section-63">&#182;</a>
               </div>
               <p>If the storage backend isn&#39;t enabled perform a no-op.</p>
 
@@ -1230,11 +1247,11 @@ will be converted first and thus reset the counter to zero.</p>
         </li>
         
         
-        <li id="section-63">
+        <li id="section-64">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-63">&#182;</a>
+                <a class="pilcrow" href="#section-64">&#182;</a>
               </div>
               <p>Given a properties object, in the form of {key: value, key:value} set
 multiple keys.</p>
@@ -1246,11 +1263,11 @@ multiple keys.</p>
         </li>
         
         
-        <li id="section-64">
+        <li id="section-65">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-64">&#182;</a>
+                <a class="pilcrow" href="#section-65">&#182;</a>
               </div>
               <p>If the storage backend isn&#39;t enabled perform a no-op.</p>
 
@@ -1263,11 +1280,11 @@ multiple keys.</p>
         </li>
         
         
-        <li id="section-65">
+        <li id="section-66">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-65">&#182;</a>
+                <a class="pilcrow" href="#section-66">&#182;</a>
               </div>
               <p>Iterate through all the object properties.</p>
 
@@ -1278,11 +1295,11 @@ multiple keys.</p>
         </li>
         
         
-        <li id="section-66">
+        <li id="section-67">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-66">&#182;</a>
+                <a class="pilcrow" href="#section-67">&#182;</a>
               </div>
               <p>Ignore any inherited properties, by making sure they are in
 the given objecct.</p>
@@ -1299,11 +1316,11 @@ the given objecct.</p>
         </li>
         
         
-        <li id="section-67">
+        <li id="section-68">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-67">&#182;</a>
+                <a class="pilcrow" href="#section-68">&#182;</a>
               </div>
               <p>Given an array of keys, return an array of values. If values don&#39;t
 exist, null will be in their place.</p>
@@ -1319,11 +1336,11 @@ exist, null will be in their place.</p>
         </li>
         
         
-        <li id="section-68">
+        <li id="section-69">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-68">&#182;</a>
+                <a class="pilcrow" href="#section-69">&#182;</a>
               </div>
               <p>To ensure that the correct structure is returned, if
 the storage backend isn&#39;t enabled return an array of null
@@ -1345,11 +1362,11 @@ values with the correct length.</p>
         </li>
         
         
-        <li id="section-69">
+        <li id="section-70">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-69">&#182;</a>
+                <a class="pilcrow" href="#section-70">&#182;</a>
               </div>
               <p>Given an array of keys, return an array of values. If values don&#39;t
 exist, null will be in their place.</p>
@@ -1365,11 +1382,11 @@ exist, null will be in their place.</p>
         </li>
         
         
-        <li id="section-70">
+        <li id="section-71">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-70">&#182;</a>
+                <a class="pilcrow" href="#section-71">&#182;</a>
               </div>
               <p>To ensure that the correct structure is returned, if
 the storage backend isn&#39;t enabled return an array of null
@@ -1391,11 +1408,11 @@ values with the correct length.</p>
         </li>
         
         
-        <li id="section-71">
+        <li id="section-72">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-71">&#182;</a>
+                <a class="pilcrow" href="#section-72">&#182;</a>
               </div>
               <p>Given an array of keys, remove all of them from the cache.</p>
 
@@ -1406,11 +1423,11 @@ values with the correct length.</p>
         </li>
         
         
-        <li id="section-72">
+        <li id="section-73">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-72">&#182;</a>
+                <a class="pilcrow" href="#section-73">&#182;</a>
               </div>
               <p>If the storage backend isn&#39;t enabled perform a no-op.</p>
 
@@ -1429,11 +1446,11 @@ values with the correct length.</p>
         </li>
         
         
-        <li id="section-73">
+        <li id="section-74">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-73">&#182;</a>
+                <a class="pilcrow" href="#section-74">&#182;</a>
               </div>
               <p>Delete all stored values from the cache. This method will only remove
 values added to the storage backend with the locache prefix in the key.</p>
@@ -1445,11 +1462,11 @@ values added to the storage backend with the locache prefix in the key.</p>
         </li>
         
         
-        <li id="section-74">
+        <li id="section-75">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-74">&#182;</a>
+                <a class="pilcrow" href="#section-75">&#182;</a>
               </div>
               <p>If the storage backend isn&#39;t enabled perform a no-op.</p>
 
@@ -1465,11 +1482,11 @@ values added to the storage backend with the locache prefix in the key.</p>
         </li>
         
         
-        <li id="section-75">
+        <li id="section-76">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-75">&#182;</a>
+                <a class="pilcrow" href="#section-76">&#182;</a>
               </div>
               <p>Iteratate through all the keys stored in the storage backend - if
 the key tarts with the prefix cache prefix, then remove that key.
@@ -1489,11 +1506,11 @@ backwards to make sure removing items does not mess up the index</p>
         </li>
         
         
-        <li id="section-76">
+        <li id="section-77">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-76">&#182;</a>
+                <a class="pilcrow" href="#section-77">&#182;</a>
               </div>
               <p>Return the number of cache values stored in the storage backend. This
 only calculates the values stored by locache</p>
@@ -1505,11 +1522,11 @@ only calculates the values stored by locache</p>
         </li>
         
         
-        <li id="section-77">
+        <li id="section-78">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-77">&#182;</a>
+                <a class="pilcrow" href="#section-78">&#182;</a>
               </div>
               <p>If the storage backend isn&#39;t supported perform a no-op and return
 zero.</p>
@@ -1537,11 +1554,11 @@ zero.</p>
         </li>
         
         
-        <li id="section-78">
+        <li id="section-79">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-78">&#182;</a>
+                <a class="pilcrow" href="#section-79">&#182;</a>
               </div>
               <p>Return the set of keys in the storage backend. This only returns the
 keys stored by locache. Returns an empty array if no keys are found.</p>
@@ -1553,11 +1570,11 @@ keys stored by locache. Returns an empty array if no keys are found.</p>
         </li>
         
         
-        <li id="section-79">
+        <li id="section-80">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-79">&#182;</a>
+                <a class="pilcrow" href="#section-80">&#182;</a>
               </div>
               <p>If the storage backend isn&#39;t supported perform a no-op and return
 an empty array.</p>
@@ -1587,11 +1604,11 @@ an empty array.</p>
         </li>
         
         
-        <li id="section-80">
+        <li id="section-81">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-80">&#182;</a>
+                <a class="pilcrow" href="#section-81">&#182;</a>
               </div>
               <p>A cleanup utility method to remove expired keys. Iterate through all
 the keys stored in the storage backend. If they key is a locache key
@@ -1605,11 +1622,11 @@ has, remove the key from the cache.</p>
         </li>
         
         
-        <li id="section-81">
+        <li id="section-82">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-81">&#182;</a>
+                <a class="pilcrow" href="#section-82">&#182;</a>
               </div>
               <p>If the storage backend isn&#39;t enabled perform a no-op.</p>
 
@@ -1628,11 +1645,11 @@ has, remove the key from the cache.</p>
         </li>
         
         
-        <li id="section-82">
+        <li id="section-83">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-82">&#182;</a>
+                <a class="pilcrow" href="#section-83">&#182;</a>
               </div>
               <p>If the key matches, remove the prefix to get the original key
 and then make use of the normal remove method that will clean
@@ -1654,11 +1671,11 @@ pair.</p>
         </li>
         
         
-        <li id="section-83">
+        <li id="section-84">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-83">&#182;</a>
+                <a class="pilcrow" href="#section-84">&#182;</a>
               </div>
               <p>A factory method added to the LocacheCache constructor to create
 instances of itself. Rather than placing the class publicly, wrap
@@ -1673,11 +1690,11 @@ it up in a method and keep it for internal usage.</p>
         </li>
         
         
-        <li id="section-84">
+        <li id="section-85">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-84">&#182;</a>
+                <a class="pilcrow" href="#section-85">&#182;</a>
               </div>
               <p>The top-level instance. All public locache objects will be
 attached to this object.</p>
@@ -1689,11 +1706,11 @@ attached to this object.</p>
         </li>
         
         
-        <li id="section-85">
+        <li id="section-86">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-85">&#182;</a>
+                <a class="pilcrow" href="#section-86">&#182;</a>
               </div>
               <p>To provide easy access to session caching, attack another instance of
 locache to the main object. This means we can now use the full API
@@ -1709,11 +1726,11 @@ against sessionStorage simply by doing: <code>locache.session.set(...)</code> an
         </li>
         
         
-        <li id="section-86">
+        <li id="section-87">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-86">&#182;</a>
+                <a class="pilcrow" href="#section-87">&#182;</a>
               </div>
               <p>Attach the locache namespace to the global window object.</p>
 
