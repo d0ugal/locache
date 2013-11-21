@@ -25,6 +25,23 @@ describe("sessionStorage:", function () {
         expect(this.cache.length()).toBe(3);
     });
 
+    it("should return an empty list of keys", function () {
+        expect(this.cache.length()).toBe(0);
+        window.sessionStorage.setItem("external", "ignore");
+        expect(this.cache.keys()).toEqual([]);
+    });
+
+    it("should return a list of keys", function () {
+        expect(this.cache.length()).toBe(0);
+        this.cache.setMany({
+            "key1": "value1",
+            "key2": "value2",
+            "key3": "value3"
+        });
+        window.localStorage.setItem("external", "ignore");
+        expect(this.cache.keys().sort()).toEqual(["key1", "key2", "key3"]);
+    });
+
     it("should set and get a string and verify the data type", function () {
         this.cache.set("my_string", "my_value");
         expect(this.cache.get("my_string")).toBe("my_value");
@@ -39,6 +56,29 @@ describe("sessionStorage:", function () {
         this.cache.set("my_number", 11);
         expect(this.cache.get("my_number")).toBe(11);
         expect(typeof this.cache.get("my_number")).toBe("number");
+    });
+
+    it("should get a cached item after the timeout was omitted", function () {
+
+        // set with timeout
+        this.cache.set("item", "a", 0.1);
+        // remove the timeout
+        this.cache.set("item", "a");
+
+        var callCount = 0;
+
+        var that = this;
+
+        // wait 0.2 seconds to retrieve the item from the cache. Despite
+        // originally setting a
+        setTimeout(function () {
+            expect(that.cache.get("item")).toBe("a");
+            callCount++;
+        }, 200);
+
+         waitsFor(function () {
+            return callCount === 1;
+        });
     });
 
     it("should test setting a value with an expire time", function () {
