@@ -160,6 +160,7 @@ body {
   -moz-box-shadow: 0.3em 0.3em 0.6em #aaa;
   -webkit-box-shadow: 0.3em 0.3em 0.6em #aaa;
   box-shadow: 2px 2px 8px #aaa;
+  -webkit-backface-visibility: hidden;
 }
 
 .block_list {
