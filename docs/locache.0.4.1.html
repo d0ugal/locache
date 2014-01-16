@@ -44,7 +44,7 @@
               <pre><code> locache 0.4.1
 
  (c) 2012 Dougal Matthews
- locache may be freely distributed under the MIT licence.
+ locache may be freely distributed under the MIT license.
 
  locache is a client side caching framework that stores data
  with DOM Storage and proves a memcache inspired API for
@@ -308,7 +308,7 @@ sessionStorage.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
-              <p>Booleant flat to check if the browser supports HTML postMessage.</p>
+              <p>Boolean flag to check if the browser supports HTML postMessage.</p>
 
             </div>
             
@@ -336,7 +336,7 @@ sessionStorage.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
-              <p>A defer implempmentation to avoid IO access blocking the current
+              <p>A defer implementation to avoid IO access blocking the current
 thread. This is exposed on the LocacheCache prototype, simply so it
 can be accessed from within the unit tests. It&#39;s not intended for
 public use.</p>
@@ -384,9 +384,9 @@ public use.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
-              <p>Add a message event listner. If its not from this window or doesn&#39;t
+              <p>Add a message event listener. If its not from this window or doesn&#39;t
 have the message name defined above, don&#39;t do anything and allow it
-to propogate to other handlers. Otherwise, its meant for us so stop
+to propagate to other handlers. Otherwise, its meant for us so stop
 the event.</p>
 
             </div>
@@ -447,7 +447,7 @@ the event.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
-              <p>Return false, to make sure the event isn&#39;t propogated</p>
+              <p>Return false, to make sure the event isn&#39;t propagated</p>
 
             </div>
             
@@ -464,7 +464,7 @@ the event.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
-              <p>Constructor for the Defer, takes a function onject and stores it
+              <p>Constructor for the Defer, takes a function object and stores it
 on itself.</p>
 
             </div>
@@ -482,7 +482,7 @@ on itself.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
-              <p>The defer method runs the function and stores the result. Uppon
+              <p>The defer method runs the function and stores the result. Upon
 finishing, it looks for a finishedFunction, that if exists, is
 called and passed the result.</p>
 
@@ -505,7 +505,7 @@ called and passed the result.</p>
                 <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
               <p>Return if the defer has finished. THis is determined by the
-existance of the resultValue on the object.</p>
+existence of the resultValue on the object.</p>
 
             </div>
             
@@ -574,7 +574,7 @@ late. If it is, call it straight away.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-31">&#182;</a>
               </div>
-              <p>Wrapper utility function that provies access to the Deffered
+              <p>Wrapper utility function that provides access to the Deferred
 implementation and makes it very simple to use.</p>
 
             </div>
@@ -605,7 +605,7 @@ implementation and makes it very simple to use.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-33">&#182;</a>
               </div>
-              <p>Add the defer method on the Deffered object, with the instance
+              <p>Add the defer method on the Deferred object, with the instance
 bound to the queue.</p>
 
             </div>
@@ -621,7 +621,7 @@ bound to the queue.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-34">&#182;</a>
               </div>
-              <p>post a message to the window that can be recieved by the
+              <p>post a message to the window that can be received by the
 message handler.</p>
 
             </div>
@@ -637,7 +637,7 @@ message handler.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-35">&#182;</a>
               </div>
-              <p>Finally return the deffered object instance.</p>
+              <p>Finally, return the deferred object instance.</p>
 
             </div>
             
@@ -1302,7 +1302,7 @@ multiple keys.</p>
                 <a class="pilcrow" href="#section-67">&#182;</a>
               </div>
               <p>Ignore any inherited properties, by making sure they are in
-the given objecct.</p>
+the given object.</p>
 
             </div>
             
@@ -1488,7 +1488,7 @@ values added to the storage backend with the locache prefix in the key.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-76">&#182;</a>
               </div>
-              <p>Iteratate through all the keys stored in the storage backend - if
+              <p>Iterate through all the keys stored in the storage backend - if
 the key tarts with the prefix cache prefix, then remove that key.
 backwards to make sure removing items does not mess up the index</p>
 
@@ -1653,7 +1653,7 @@ has, remove the key from the cache.</p>
               </div>
               <p>If the key matches, remove the prefix to get the original key
 and then make use of the normal remove method that will clean
-up the cache value key pair and the cache epiration time key
+up the cache value key pair and the cache expiration time key
 pair.</p>
 
             </div>
@@ -1712,7 +1712,7 @@ attached to this object.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-86">&#182;</a>
               </div>
-              <p>To provide easy access to session caching, attack another instance of
+              <p>To provide easy access to session caching, attach another instance of
 locache to the main object. This means we can now use the full API
 against sessionStorage simply by doing: <code>locache.session.set(...)</code> and
 <code>locache.session.get(...)</code></p>
