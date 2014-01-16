@@ -3,7 +3,7 @@
 //      locache VERSION-PLACEHOLDER
 //
 //      (c) 2012 Dougal Matthews
-//      locache may be freely distributed under the MIT licence.
+//      locache may be freely distributed under the MIT license.
 //
 //      locache is a client side caching framework that stores data
 //      with DOM Storage and proves a memcache inspired API for
@@ -98,13 +98,13 @@
     // Boolean flag to check if the browser supports native JSON.
     var supportsNativeJSON = LocacheCache.prototype.supportsNativeJSON = !!root.JSON;
 
-    // Booleant flat to check if the browser supports HTML postMessage.
+    // Boolean flag to check if the browser supports HTML postMessage.
     var supportsPostMessage = LocacheCache.prototype.supportsPostMessage = !!window.postMessage;
 
     // Internal utility functions
     // --------------------
 
-    // A defer implempmentation to avoid IO access blocking the current
+    // A defer implementation to avoid IO access blocking the current
     // thread. This is exposed on the LocacheCache prototype, simply so it
     // can be accessed from within the unit tests. It's not intended for
     // public use.
@@ -115,9 +115,9 @@
         // Message name used to identify posts related to the defer
         var messageName = "function-defer-message";
 
-        // Add a message event listner. If its not from this window or doesn't
+        // Add a message event listener. If its not from this window or doesn't
         // have the message name defined above, don't do anything and allow it
-        // to propogate to other handlers. Otherwise, its meant for us so stop
+        // to propagate to other handlers. Otherwise, its meant for us so stop
         // the event.
         var addEventListener;
         if (root.addEventListener) {
@@ -142,18 +142,18 @@
             var fn = timeouts.shift();
             fn();
 
-            // Return false, to make sure the event isn't propogated
+            // Return false, to make sure the event isn't propagated
             return false;
 
         }, true);
 
-        // Constructor for the Defer, takes a function onject and stores it
+        // Constructor for the Defer, takes a function object and stores it
         // on itself.
         function Deferred(fn) {
             this.fn = fn;
         }
 
-        // The defer method runs the function and stores the result. Uppon
+        // The defer method runs the function and stores the result. Upon
         // finishing, it looks for a finishedFunction, that if exists, is
         // called and passed the result.
         Deferred.prototype.defer = function () {
@@ -164,7 +164,7 @@
         };
 
         // Return if the defer has finished. THis is determined by the
-        // existance of the resultValue on the object.
+        // existence of the resultValue on the object.
         Deferred.prototype.hasFinished = function () {
             return this.hasOwnProperty('resultValue');
         };
@@ -183,18 +183,18 @@
             return this;
         };
 
-        // Wrapper utility function that provies access to the Deffered
+        // Wrapper utility function that provides access to the Deferred
         // implementation and makes it very simple to use.
         function defer(fn) {
             // Create the defer instance that wraps the function
             var d = new Deferred(fn);
-            // Add the defer method on the Deffered object, with the instance
+            // Add the defer method on the Deferred object, with the instance
             // bound to the queue.
             timeouts.push(bind(d.defer, d));
-            // post a message to the window that can be recieved by the
+            // post a message to the window that can be received by the
             // message handler.
             root.postMessage(messageName, "*");
-            // Finally return the deffered object instance.
+            // Finally, return the deferred object instance.
             return d;
         }
 
@@ -473,7 +473,7 @@
         // Iterate through all the object properties.
         for (var key in properties) {
             // Ignore any inherited properties, by making sure they are in
-            // the given objecct.
+            // the given object.
             if (properties.hasOwnProperty(key)) {
                 this.set(key, properties[key], seconds);
             }
@@ -550,7 +550,7 @@
         var length = this.storage.length();
         var prefix = this.cachePrefix;
 
-        // Iteratate through all the keys stored in the storage backend - if
+        // Iterate through all the keys stored in the storage backend - if
         // the key tarts with the prefix cache prefix, then remove that key.
         // backwards to make sure removing items does not mess up the index
         for (var i = length - 1; i >= 0; i--) {
@@ -630,7 +630,7 @@
             var key = this.storage.key(i);
             // If the key matches, remove the prefix to get the original key
             // and then make use of the normal remove method that will clean
-            // up the cache value key pair and the cache epiration time key
+            // up the cache value key pair and the cache expiration time key
             // pair.
             if (key && key.indexOf(prefix) === 0) {
                 var actualKey = key.substring(prefix.length, key.length);
@@ -653,7 +653,7 @@
     // attached to this object.
     var locache = new LocacheCache();
 
-    // To provide easy access to session caching, attack another instance of
+    // To provide easy access to session caching, attach another instance of
     // locache to the main object. This means we can now use the full API
     // against sessionStorage simply by doing: `locache.session.set(...)` and
     // `locache.session.get(...)`
