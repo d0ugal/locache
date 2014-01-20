@@ -556,7 +556,8 @@
         for (var i = length - 1; i >= 0; i--) {
             var key = this.storage.key(i);
             if (key && key.indexOf(prefix) === 0) {
-                this.storage.remove(key);
+                var actualKey = key.substring(prefix.length, key.length);
+                this.remove(actualKey);
             }
         }
 
