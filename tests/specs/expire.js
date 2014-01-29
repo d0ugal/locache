@@ -119,4 +119,43 @@ describe("Expire Calculations:", function () {
         expect(vals).toEqual([null, null, null]);
     });
 
+    it("should flush out all value and expire keys", function () {
+
+        var key1 =  "mykey1",
+            cacheKey1 = this.cache.cachePrefix + key1,
+            expireKey1 = this.cache.expirePrefix + key1,
+            key2 =  "mykey2",
+            cacheKey2 = this.cache.cachePrefix + key2,
+            expireKey2 = this.cache.expirePrefix + key2;
+
+
+        // Bypass the normal setting mechanisims by manually calling the
+        // storage wrapper around localStorage.
+        this.store[cacheKey1] = "value1";
+        this.store[cacheKey2] = "value2";
+
+        // set the first value to expire on a date in the past, and then
+        // second to expire in the future.
+        this.store[expireKey1] = this.past;
+        this.store[expireKey2] = this.future;
+
+        // Both values should be stored in localStorage - by passing the
+        // normal get method to avoid the checks for validation
+        expect(this.store[cacheKey1]).toBe("value1");
+        expect(this.store[cacheKey2]).toBe("value2");
+
+        // Perform a flush.
+        this.cache.flush();
+
+        // Check the values again, all keys and expire keys should be removed
+        expect(this.store[cacheKey1]).toBe(undefined);
+        expect(this.cache.get(cacheKey1)).toBe(null);
+        expect(this.store[cacheKey2]).toBe(undefined);
+
+        expect(this.store[expireKey1]).toBe(undefined);
+        expect(this.cache.get(expireKey1)).toBe(null);
+        expect(this.store[expireKey2]).toBe(undefined);
+
+    });
+
 });
