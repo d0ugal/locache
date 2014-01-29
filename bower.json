@@ -1,0 +1,16 @@
+{
+  "name": "locache",
+  "version": "0.4.2",
+  "main": "build/locache.js",
+  "description": "JavaScript caching framework for client side caching in the browser using localStorage",
+  "ignore": [
+    ".jshintrc",
+    "**/*.txt",
+    "gh-pages",
+    "CNAME"
+  ],
+  "devDependencies": {
+    "jasmine": "1.2",
+    "sinon": "1.3.2"
+  }
+}
