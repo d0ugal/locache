@@ -19,6 +19,10 @@
     // Save a reference to the global object, in most cases this is `window`.
     var root = this;
 
+    //Check if Promises is available
+    if (!window['Promise'])
+      console.log("Promise isn't available at this browser");
+
     // Object context bnding shim to support older versions of IE.
     var bind = function (func, thisValue) {
         return function () {
