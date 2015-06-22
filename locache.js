@@ -104,6 +104,7 @@
     // Internal utility functions
     // --------------------
 
+    // @Deprecated
     // A defer implementation to avoid IO access blocking the current
     // thread. This is exposed on the LocacheCache prototype, simply so it
     // can be accessed from within the unit tests. It's not intended for
@@ -390,16 +391,11 @@
     LocacheCache.prototype.async = {
 
         set: function (key, value, seconds) {
-            return defer(bind(function () {
-                return this.set(key, value, seconds);
-            }, this));
+            return Promise.resolve(this.set(key, value, seconds));
         },
 
         get: function (key) {
-            return defer(bind(function () {
-                return this.get(key);
-            }, this));
-
+            return Promise.resolve(this.get(key));
         }
 
     };
