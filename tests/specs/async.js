@@ -19,12 +19,11 @@ describe("asynclocal:", function () {
         var asynDone = false;
         var cache = this.cache;
 
-        cache.async.set("key", "value").finished(function (event) {
+        expect(cache.length()).toBe(0);
+        cache.async.set("key", "value").then(function (event) {
             expect(cache.length()).toBe(1);
             asynDone = true;
         });
-
-        expect(cache.length()).toBe(0);
 
         waitsFor(function () {
             return asynDone;
@@ -37,8 +36,8 @@ describe("asynclocal:", function () {
         var cache = this.cache;
         var asynDone = false;
 
-        cache.async.set("my_string", "my_value").finished(function () {
-            cache.async.get("my_string").finished(function (result) {
+        cache.async.set("my_string", "my_value").then(function () {
+            cache.async.get("my_string").then(function (result) {
                 expect(result).toBe("my_value");
                 expect(typeof result).toBe("string");
                 asynDone = true;
