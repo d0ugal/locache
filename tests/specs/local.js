@@ -110,7 +110,7 @@ describe("localStorage:", function () {
 
     });
 
-    it("hould test incrementing a key", function () {
+    it("should test incrementing a key", function () {
         expect(this.cache.get("counter")).toBe(null);
         this.cache.incr("counter");
         expect(this.cache.get("counter")).toBe(1);
