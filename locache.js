@@ -526,7 +526,7 @@
         var length = this.storage.length();
         var prefix = this.cachePrefix;
 
-        for (var i = 0; i < length; i++) {
+        for (var i = length - 1; i >= 0; i--) {
             var key = this.storage.key(i);
             // If the key matches, remove the prefix to get the original key
             // and then make use of the normal remove method that will clean
